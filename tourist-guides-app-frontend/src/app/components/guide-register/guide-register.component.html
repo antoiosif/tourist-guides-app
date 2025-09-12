@@ -1,0 +1,408 @@
+<div class="row justify-content-center">
+  <div class="col-11 col-lg-7 my-md-3 p-5 bg-body-tertiary shadow">
+    <div class="px-md-3 px-xl-5">
+      
+      <!-- Alert for success/failure of Register Guide -->
+      <app-alert-success-failure [status]="status"></app-alert-success-failure>
+
+      @if (status.success) {
+        <div class="text-center">
+          <a class="text-primary fw-bold" routerLink="/login">
+            Είσοδος στις Ψηφιακές Υπηρεσίες
+          </a>
+        </div>
+      } @else {
+        <h2 class="p-2 text-center bg-blue-1">Eγγραφή Ξεναγού</h2>
+        <p class="text-center fst-italic">Τα πεδία με αστερίσκο (*) είναι υποχρεωτικά</p>
+
+        <!-- Register Guide Form -->
+        <form [formGroup]="form" class="row">
+
+          <!-- control: username -->
+          <div class="min-height-115">
+            <label for="username" class="form-label text-secondary fw-bold">
+              E-mail*
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="username?.invalid && (username?.dirty || username?.touched)"
+              id="username"
+              type="text"
+              required
+              formControlName="username"
+              (blur)="checkUsernameExists()"
+            />
+            <!-- Validation error messages -->
+            @if (username?.invalid && (username?.dirty || username?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (username?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                }
+              }
+            }
+          </div>
+
+          <!-- control: password -->
+          <div class="min-height-115">
+            <div class="mb-2 d-flex align-items-center">
+              <label for="password" class="me-1 text-secondary fw-bold">
+                Κωδικός πρόσβασης (συνθηματικό)*
+              </label>
+              <mat-icon
+                class="text-secondary fs-11"
+                role="button"
+                [ngbTooltip]="tipPassword"
+                tooltipClass="my-tooltip"
+                placement="top"
+                triggers="click"
+              >
+                info
+              </mat-icon>
+            </div>
+            <input
+              class="form-control"
+              [class.is-invalid]="password?.invalid && (password?.dirty || password?.touched)"
+              id="password"
+              type="password"
+              required
+              formControlName="password"
+            />
+            <!-- Validation error messages -->
+            @if (password?.invalid && (password?.dirty || password?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (password?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                  @if (password?.hasError('pattern')) {
+                    <div class="invalid-feedback d-block">
+                      <ng-container *ngTemplateOutlet="tipPassword"></ng-container>
+                    </div>
+                  }
+                }
+              }
+            }
+          </div>
+
+          <!-- control: confirmPassword -->
+          <div class="min-height-115">
+            <label for="confirmPassword" class="form-label text-secondary fw-bold">
+              Επιβεβαίωση συνθηματικού*
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)"
+              id="confirmPassword"
+              type="password"
+              required
+              formControlName="confirmPassword"
+            />
+            <!-- Validation error messages -->
+            @if (confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (confirmPassword?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                }
+              }
+            }
+          </div>
+          
+          <!-- control: firstname  -->
+          <div class="min-height-115">
+            <label for="firstname" class="form-label text-secondary fw-bold">
+              Όνομα*
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="firstname?.invalid && (firstname?.dirty || firstname?.touched)"
+              id="firstname"
+              type="text"
+              required
+              formControlName="firstname"
+            />
+            <!-- Validation error messages -->
+            @if (firstname?.invalid && (firstname?.dirty || firstname?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (firstname?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                  @if (firstname?.hasError('pattern')) {
+                    <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 2 χαρακτήρες και καθόλου κενά</div>
+                  }
+                }
+              }
+            }
+          </div>
+
+          <!-- control: lastname -->
+          <div class="min-height-115">
+            <label for="lastname" class="form-label text-secondary fw-bold">
+              Επώνυμο*
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="lastname?.invalid && (lastname?.dirty || lastname?.touched)"
+              id="lastname"
+              type="text"
+              required
+              formControlName="lastname"
+            />
+            <!-- Validation error messages -->
+            @if (lastname?.invalid && (lastname?.dirty || lastname?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (lastname?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                  @if (lastname?.hasError('pattern')) {
+                    <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 2 χαρακτήρες και καθόλου κενά</div>
+                  }
+                }
+              }
+            }
+          </div>
+
+          <!-- control: gender -->
+          <div class="mb-4 d-flex flex-row gap-3">
+            <div>
+              <input
+                class="form-check-input me-2"
+                id="male"
+                type="radio"
+                value="MALE"
+                formControlName="gender"
+              />
+              <label for="male" class="form-label text-secondary fw-bold">
+                Άνδρας
+              </label>
+            </div>
+            <div>
+              <input
+                class="form-check-input me-2"
+                id="female"
+                type="radio"
+                value="FEMALE"
+                formControlName="gender"
+              />
+              <label for="female" class="form-label text-secondary fw-bold">
+                Γυναίκα
+              </label>
+            </div>
+            <div>
+              <input
+                class="form-check-input me-2"
+                id="other"
+                type="radio"
+                value="OTHER"
+                formControlName="gender"
+              />
+              <label for="other" class="form-label text-secondary fw-bold">
+                Άλλο
+              </label>
+            </div>
+          </div>
+          
+          <!-- control: recordNumber -->
+          <div class="col-md-6 min-height-115">
+            <label for="recordNumber" class="form-label text-secondary fw-bold">
+              Αριθμός Μητρώου*
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="recordNumber?.invalid && (recordNumber?.dirty || recordNumber?.touched)"
+              id="recordNumber"
+              type="text"
+              required
+              formControlName="recordNumber"
+              (blur)="checkRecordNumberExists()"
+            />
+            <!-- Validation error messages -->
+            @if (recordNumber?.invalid && (recordNumber?.dirty || recordNumber?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (recordNumber?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                  @if (recordNumber?.hasError('pattern')) {
+                    <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 5 χαρακτήρες και καθόλου κενά</div>
+                  }
+                }
+              }
+            }
+          </div>
+
+          <!-- control: dateOfIssue -->
+          <div class="col-md-6 min-height-115">
+            <label class="form-label text-secondary fw-bold">
+              Ημερομηνία έκδοσης*
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="dateOfIssue?.invalid && (dateOfIssue?.dirty || dateOfIssue?.touched)"
+              id="dateOfIssue"
+              type="date"
+              required
+              formControlName="dateOfIssue"
+            />
+            <!-- Validation error messages -->
+            @if (dateOfIssue?.invalid && (dateOfIssue?.dirty || dateOfIssue?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (dateOfIssue?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                }
+              }
+            }
+          </div>
+
+          <p class="bg-blue-1 p-3 text-start">
+            Τα παρακάτω στοιχεία θα είναι ορατά στον <b>Κατάλογο Διπλωματούχων Ξεναγών</b>
+          </p>
+
+          <!-- control: phoneNumber -->
+          <div class="min-height-115">
+            <label for="phoneNumber" class="form-label text-secondary fw-bold">
+              Τηλέφωνο επικοινωνίας
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)"
+              id="phoneNumber"
+              type="text"
+              formControlName="phoneNumber"
+            />
+            <!-- Validation error messages -->
+            @if (phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (phoneNumber?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">
+                      Πρέπει να αποτελείται από 10 ψηφία χωρίς κενά
+                  </div>
+                }
+              }
+            }
+          </div>
+
+          <!-- control: email -->
+          <div class="min-height-115">
+            <label for="email" class="form-label text-secondary fw-bold">
+              E-mail επικοινωνίας
+            </label>
+            <input
+              class="form-control"
+              [class.is-invalid]="email?.invalid && (email?.dirty || email?.touched)"
+              id="email"
+              type="text"
+              formControlName="email"
+            />
+            <!-- Validation error messages -->
+            @if (email?.invalid && (email?.dirty || email?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (email?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                }
+              }
+            }
+          </div>
+
+          <!-- control: regionId -->
+          <div class="min-height-115">
+            <label for="regionId" class="form-label text-secondary fw-bold">
+              Περιοχή διαμονής*
+            </label>
+            <select
+              class="form-select"
+              [class.is-invalid]="regionId?.invalid && (regionId?.dirty || regionId?.touched)"
+              id="regionId"
+              required
+              formControlName="regionId"
+            >
+              <option value="" disabled hidden>-- Επιλέξτε περιοχή διαμονής --</option>
+              @for (region of regions(); track region.id) {
+                <option [value]="region.id">{{ region.name }}</option>
+              }
+            </select>
+            <!-- Validation error messages -->
+            @if (regionId?.invalid && (regionId?.dirty || regionId?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (regionId?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                }
+              }
+            }
+          </div>
+
+          <!-- control: languageId -->
+          <div class="min-height-115">
+            <label for="languageId" class="form-label text-secondary fw-bold">
+              Γλώσσα*
+            </label>
+            <select
+              class="form-select"
+              [class.is-invalid]="languageId?.invalid && (languageId?.dirty || languageId?.touched)"
+              id="languageId"
+              required
+              formControlName="languageId"
+            >
+              <option value="" disabled hidden>-- Επιλέξτε γλώσσα --</option>
+              @for (language of languages(); track language.id) {
+                <option [value]="language.id">{{ language.name }}</option>
+              }
+            </select>
+            <!-- Validation error messages -->
+            @if (languageId?.invalid && (languageId?.dirty || languageId?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (languageId?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">{{ error.message }}</div>
+                }
+              }
+            }
+          </div>
+
+          <!-- control: bio -->
+          <div class="mb-5">
+            <label for="bio" class="form-label text-secondary fw-bold">
+              Βιογραφικό <span class="fs-08 fw-normal">(έως 5000 χαρακτήρες)</span>
+            </label>
+            <textarea 
+              class="form-control h-100"
+              [class.is-invalid]="bio?.invalid && (bio?.dirty || bio?.touched)"
+              id="bio" 
+              formControlName="bio"
+            >
+            </textarea>
+            <!-- Validation error messages -->
+            @if (bio?.invalid && (bio?.dirty || bio?.touched)) {
+              @for (error of validationErrors; track error) {
+                @if (bio?.hasError(error.name)) {
+                  <div class="invalid-feedback d-block">
+                      Το κείμενο πρέπει να περιέχει έως 5000 χαρακτήρες
+                  </div>
+                }
+              }
+            }
+          </div>
+        </form>
+
+        <!-- Submit button -->
+        <div class="text-center">
+          <button 
+            class="btn btn-primary rounded-0" 
+            [disabled]="this.form.invalid" 
+            (click)="onSubmit()"
+          >
+            Δημιουργία λογαριασμού
+          </button>
+        </div>
+
+        <!-- Link for Login -->
+        <p class="mt-4 text-center">
+          <a class="text-blue" routerLink="/login">Έχετε ήδη λογαριασμό;</a>
+        </p>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Tooltip for password -->
+<ng-template #tipPassword>
+  Πρέπει να περιέχει τουλάχιστον 8 χαρακτήρες χωρίς κενά, εκ των οποίων τουλάχιστον:
+  <ul>
+    <li>1 πεζό λατινικό γράμμα</li>
+    <li>1 κεφαλαίο λατινικό γράμμα</li>
+    <li>1 ψηφίο</li>
+    <li>1 ειδικό χαρακτήρα: !&#64;#$%^&+=</li>
+  </ul>
+</ng-template>

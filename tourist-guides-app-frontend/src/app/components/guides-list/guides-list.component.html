@@ -1,0 +1,107 @@
+<h3 class="mb-5">Κατάλογος Διπλωματούχων Ξεναγών</h3>
+<p class="p-3 bg-blue-1">
+  <strong>Σημαντική σημείωση:</strong> Οι διπλωματούχοι ξεναγοί ξεναγούν παντού στην Ελλάδα ανεξαρτήτως τόπου διαμονής
+</p>
+
+<!-- Filtering Form -->
+<div class="mb-3 p-3 bg-body-tertiary">
+  <form class="row g-3" [formGroup]="form">
+
+    <!-- filter: isActive - visible only to role 'SUPER_ADMIN' -->
+    <div class="col-lg-2 d-flex gap-2" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">
+      <input class="form-check-input" type="checkbox" formControlName="isActive" />
+      <label class="form-label">
+        Μόνο Ενεργοί Χρήστες
+      </label>
+    </div>
+
+    <!-- filter: guide's uuid - visible only to role 'SUPER_ADMIN' -->
+    <div class="col-md-6" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">
+      <input class="form-control" type="text" placeholder="UUID" formControlName="uuid" />
+    </div>
+
+    <!-- filter: guide's record number - visible only to role 'SUPER_ADMIN' -->
+    <div class="col-md-6 col-lg-4" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">
+      <input class="form-control" type="text" placeholder="Αριθμός Μητρώου" formControlName="recordNumber" />
+    </div>
+
+    <!-- filter: language -->
+    <div class="col-sm-6 col-lg-3">
+      <select class="form-select" formControlName="languageId">
+        <option value="" selected>Όλες οι γλώσσες</option>
+        @for (language of languages(); track language.id) {
+          <option value="{{ language.id }}">{{ language.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- filter: region -->
+    <div class="col-sm-6 col-lg-3">
+      <select class="form-select" formControlName="regionId">
+        <option value="" selected>Όλες οι περιοχές</option>
+        @for (region of regions(); track region.id) {
+          <option value="{{ region.id }}">{{ region.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- filter: guide's lastname -->
+    <div class="col-lg-6">
+      <input class="form-control" type="text" placeholder="Επώνυμο Ξεναγού" formControlName="userLastname" />
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex gap-3">
+      <button 
+        class="btn btn-primary rounded-0"
+        (click)="onSubmit()"
+      >
+        Αναζήτηση
+      </button> 
+      <button 
+        class="btn btn-outline-primary rounded-0"
+        (click)="onReset()"
+      >
+        Εκκαθάριση
+      </button> 
+    </div>
+  </form>
+</div>
+
+<!-- Table -->
+<app-guides-table [guides]="guides" class="align-items-center"></app-guides-table>
+
+<!-- Pagination -->
+<div class="text-center">
+  <ul class="pagination justify-content-center">
+    <!-- link to the previous page -->
+    <li class="page-item">
+      <a class="page-link" aria-label="Previous" (click)="getPreviousPage()">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <!-- current page -->
+    <li>
+      <div class="mb-3 d-flex flex-nowrap px-2">
+        <label class="col-form-label me-2 ms-1">Σελίδα</label>
+        <input
+          #i
+          type="text"
+          class="form-control custom-pages-input w-40"
+          inputmode="numeric"
+          [value]="currentPage + 1"
+          (keyup.enter)="selectPage(i.value)"
+          (blur)="selectPage(i.value)"
+          (input)="formatInput($any($event).target)"
+        />
+        <span class="col-form-label text-nowrap px-2"> από {{ totalPages }}</span>
+      </div>
+    </li>
+    <!-- link to the next page -->
+    <li class="page-item">
+      <a class="page-link" aria-label="Next" (click)="getNextPage()">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</div>

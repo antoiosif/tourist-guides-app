@@ -1,0 +1,130 @@
+<header class="sticky-top">
+  <div class="d-lg-flex bg-body-tertiary header-border">
+    <!-- Nav Menu -->
+    <nav class="navbar navbar-expand-lg flex-grow-1">
+      <div class="container-fluid">
+        <!-- Logo -->
+        <a 
+          class="navbar-brand ms-2" 
+          role="button" 
+          routerLink=""
+        >
+          <img src="logo-header.png" alt="Σωματείο Διπλωματούχων Ξεναγών" height="60" width="auto"/>
+        </a>
+
+        @if (user()) {
+          <!-- Hamburger button (for screens under size 'lg') -->
+          <button 
+            class="navbar-toggler me-2 border-0 fs-2"
+            type="button"
+            (click)="isMenuCollapsed = !isMenuCollapsed"
+          >
+            &#9776;
+          </button>
+
+          <!-- Menu - collapsed for screens under size 'lg' -->
+          <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
+            <ul class="navbar-nav">
+
+              <!-- visible to every role -->
+              <li class="nav-item mx-3" [routerLinkActive]="['active']">
+                <a
+                  class="nav-link"
+                  role="button"
+                  routerLink="guides/list-of-licensed-tourist-guides"
+                  (click)="isMenuCollapsed = true"
+                >
+                  ΚΑΤΑΛΟΓΟΣ ΔΙΠΛΩΜΑΤΟΥΧΩΝ ΞΕΝΑΓΩΝ
+                </a>
+              </li>
+
+              <!-- visible only to role 'SUPER_ADMIN' -->
+              <li class="nav-item mx-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" [routerLinkActive]="['active']">
+                <a 
+                  class="nav-link"
+                  role="button"
+                  routerLink="visitors/list-of-visitors"
+                  (click)="isMenuCollapsed = true"
+                >
+                  ΚΑΤΑΛΟΓΟΣ ΕΠΙΣΚΕΠΤΩΝ
+                </a>
+              </li>
+
+              <!-- invisible to role 'VISITOR' -->
+              <li class="nav-item mx-3" [class.d-none]="user()?.role === 'VISITOR'" [routerLinkActive]="['active']">
+                <a
+                  class="nav-link"
+                  role="button"
+                  routerLink="activities/list-of-activities"
+                  (click)="isMenuCollapsed = true"
+                >
+                  ΔΡΑΣΤΗΡΙΟΤΗΤΕΣ
+                </a>
+              </li>
+            </ul>
+          </div>
+        } @else {
+          <!-- Login Button -->
+          <div>
+            <a 
+              class="btn btn-outline-primary rounded-pill" 
+              role="button" 
+              routerLink="login"
+            >
+              Είσοδος
+            </a>
+          </div>
+        }
+      </div>
+    </nav>
+
+    <!-- Logged In user Info - invisible if there is no Logged In user -->
+    @if (user()) {
+      <div class="px-4 py-2 bg-blue-2 d-flex justify-content-end align-items-center">
+        <div ngbDropdown display="dynamic" placement="bottom-end">
+          <a 
+            class="text-white text-decoration-none"
+            id="dropdownUser"
+            role="button"
+            ngbDropdownToggle
+          >
+            {{ user()?.firstname }}
+          </a>
+
+          <!-- Dropdown menu with the actions for the Logged In user (my account, favorites, logout)  -->
+          <div ngbDropdownMenu class="dropdown-menu rounded-0" aria-labelledby="dropdownUser">
+
+            <!-- invisible to role 'SUPER_ADMIN' -->
+            <a
+              ngbDropdownItem
+              class="py-3"
+              [class.d-none]="this.user()?.role === 'SUPER_ADMIN'"
+              (click)="navigateToAccount()"
+            >
+              <span>Ο λογαριασμός μου</span>
+            </a>
+
+            <!-- visible only to role 'GUIDE' -->
+            <a
+              ngbDropdownItem
+              class="py-3"
+              [class.d-none]="this.user()?.role === 'SUPER_ADMIN' || this.user()?.role === 'VISITOR'"
+              (click)="navigateToFavorites()"
+            >
+              <span>Αγαπημένα</span>
+            </a>
+
+            <a
+              ngbDropdownItem
+              class="py-3 border-top"
+              routerLink="welcome"
+              (click)="logout()"
+            >
+              <span>Έξοδος</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</header>

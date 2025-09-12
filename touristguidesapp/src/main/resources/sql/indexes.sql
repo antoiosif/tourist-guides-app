@@ -1,0 +1,18 @@
+USE touristguidesdb;
+CREATE INDEX idx_categories_name ON categories (name);
+CREATE INDEX idx_languages_code ON languages (code);
+CREATE INDEX idx_languages_name ON languages (name);
+CREATE INDEX idx_regions_name ON regions (name);
+CREATE INDEX idx_users_username ON users (username);
+CREATE INDEX idx_users_lastname ON users (lastname);
+CREATE INDEX idx_guides_uuid ON guides (uuid);
+CREATE INDEX idx_guides_record_number ON guides (record_number);
+CREATE INDEX idx_guides_user_id ON guides (user_id);
+CREATE INDEX idx_guides_region_id ON guides (region_id);
+CREATE INDEX idx_guides_language_id ON guides (language_id);
+CREATE INDEX idx_visitors_uuid ON visitors (uuid);
+CREATE INDEX idx_visitors_user_id ON visitors (user_id);
+CREATE INDEX idx_visitors_region_id ON visitors (region_id);
+CREATE INDEX idx_activities_uuid ON activities (uuid);
+CREATE INDEX idx_activities_status ON activities (status);
+CREATE INDEX idx_activities_category_id ON activities (category_id);

@@ -1,0 +1,55 @@
+<div class="w-50">
+  <!-- Link to Go Back -->
+  <app-link-go-back></app-link-go-back>
+
+  <!-- Alert for confirmation to Delete Category -->
+  @if(isConfirmationAlertVisible) {
+    <app-alert-delete-confirmation
+      [text1]="'διαγράψετε την κατηγορία'"
+      [text2]="'id'"
+      [idToDelete]="idToDelete"
+      (onDelete)="proceedToDelete(idToDelete)"
+      (onCancelDelete)="cancelDelete()"
+    >
+    </app-alert-delete-confirmation>
+  }
+  
+  <!-- Alert for success/failure of Insert/Update/Delete Category-->
+  <app-alert-success-failure [status]="status"></app-alert-success-failure>
+
+  <!-- Button for Insert Category -->
+  <button
+    class="mb-4 btn btn-outline-primary rounded-0"
+    [disabled]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+    (click)="isInsertFormCollapsed = !isInsertFormCollapsed"
+  >
+    + Εισαγωγή Νέας Κατηγορίας
+  </button>
+
+  <!-- Insert Form -->
+  <app-category-insert-form 
+    [ngbCollapse]="isInsertFormCollapsed" 
+    (onInsert)="handleInsertAlerts($event)" 
+    (onCancelInsert)="isInsertFormCollapsed = !isInsertFormCollapsed"
+  >
+  </app-category-insert-form>
+
+  <!-- Update Form -->
+  <app-category-update-form 
+    [ngbCollapse]="isUpdateFormCollapsed"
+    [idToUpdate]="idToUpdate"
+    (onUpdate)="handleUpdateAlerts($event)"
+    (onCancelUpdate)="isUpdateFormCollapsed = !isUpdateFormCollapsed"
+  >
+  </app-category-update-form>
+
+  <!-- Table of categories -->
+  <app-categories-table 
+    [isInsertFormCollapsed]="isInsertFormCollapsed"
+    [isUpdateFormCollapsed]="isUpdateFormCollapsed"
+    [isConfirmationAlertVisible]="isConfirmationAlertVisible"
+    (onClickUpdate)="setToUpdate($event)"
+    (onClickDelete)="setToDelete($event)" 
+  >
+  </app-categories-table>
+</div>

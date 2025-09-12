@@ -1,0 +1,71 @@
+
+<!-- Link to Go Back to Activities List -->
+<app-link-go-back></app-link-go-back>
+
+@if (!status.success && status.message !== 'Not attempted yet') {
+  <ngb-alert type="danger" [dismissible]="false" class="mt-4 rounded-0 text-center">
+    <strong>Σφάλμα: </strong>
+    @for (error of backendErrors; track error) {
+      @if (status.message === error.name) {
+        {{ error.message }}
+      }
+    }
+  </ngb-alert>
+} @else {
+  <!-- Activity's Info -->
+  <div class="container">
+    <div class="w-50 mt-5 mb-3 d-flex align-items-center justify-content-between">
+      <span class="px-3 py-1 rounded-pill bg-gold text-primary fs-09">{{ activity?.category }}</span>
+
+      <!-- visible only to role 'GUIDE' -->
+      @if (!isInFavorites) {
+        <mat-icon 
+          class="text-blue favorite" 
+          [class.d-none]="user()?.role !== 'GUIDE'"
+          role="button"
+          title="Προσθήκη στα Αγαπημένα"
+          (click)="onAddToFavorites()" 
+        >
+          favorite_border
+        </mat-icon>
+      } @else {
+        <mat-icon
+          class="text-blue favorite" 
+          [class.d-none]="user()?.role !== 'GUIDE'"
+          role="button"
+          title="Αφαίρεση από τα Αγαπημένα"
+          (click)="onRemoveFromFavorites()"
+        >
+          favorite
+        </mat-icon>
+      }
+    </div>
+
+    <h2 class="w-50 mb-5 fw-bold">{{ activity?.title }}</h2>
+
+    <div class="row">
+      <div class="col-md-6 mb-4 me-md-5">
+        <span class="fw-light">{{ activity?.description }}</span>
+      </div>
+      
+      <div class="col-md-4 ms-md-5">
+        <div class="mb-3 d-flex flex-column">
+          <span class="fw-semibold text-blue">Ημερομηνία</span>
+          <span>{{ formatDate(activity?.dateTime) }}</span>
+        </div>
+        <div class="mb-3 d-flex flex-column">
+          <span class="fw-semibold text-blue">Ώρα έναρξης</span>
+          <span>{{ activity?.dateTime?.slice(11,16) }}</span>
+        </div>
+        <div class="mb-3 d-flex flex-column">
+          <span class="fw-semibold text-blue">Κόστος συμμετοχής</span>
+          @if (activity?.price === 0) {
+            <span>Δωρεάν</span>
+          } @else {
+            <span>{{ activity?.price?.toFixed(2) }} ευρώ</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

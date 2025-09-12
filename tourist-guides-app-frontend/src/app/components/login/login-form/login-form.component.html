@@ -1,0 +1,92 @@
+<!-- Login Form -->
+<form [formGroup]="form">
+
+  <!-- control: username -->
+  <div class="text-start min-height-115">
+    <div class="mb-2 d-flex align-items-center">
+      <mat-icon class="me-3 text-secondary">account_circle</mat-icon>
+      <label for="username" class="text-secondary fw-bold">E-Mail</label>
+    </div>
+    <input
+      class="form-control"
+      [class.is-invalid]="username?.invalid && (username?.dirty || username?.touched)"
+      id="username"
+      type="text"
+      required
+      formControlName="username"
+    />
+    <!-- Validation error messages -->
+    @if (username?.invalid && (username?.dirty || username?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (username?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: password -->
+  <div class="text-start min-height-115">
+    <div class="mb-2 d-flex align-items-center">
+      <mat-icon class="me-3 text-secondary">lock</mat-icon>
+      <label for="password" class="me-1 text-secondary fw-bold">Κωδικός πρόσβασης (συνθηματικό)</label>
+      <mat-icon
+        class="text-secondary fs-11"
+        role="button"
+        [ngbTooltip]="tipPassword"
+        tooltipClass="my-tooltip"
+        placement="top"
+        triggers="click"
+      >
+        info
+      </mat-icon>
+    </div>
+    <input
+      class="form-control"
+      [class.is-invalid]="password?.invalid && (password?.dirty || password?.touched)" 
+      id="password"
+      type="password"
+      required
+      formControlName="password"
+    />
+    <!-- Validation error messages -->
+    @if (password?.invalid && (password?.dirty || password?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (password?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (password?.hasError('pattern')) {
+            <div class="invalid-feedback d-block">
+              <ng-container *ngTemplateOutlet="tipPassword"></ng-container>
+            </div>
+          }
+        }
+      }
+    }
+  </div>
+</form>
+
+<!-- Alert for invalid credentials -->
+@if (invalidLogin) {
+  <div class="mb-4 alert alert-danger rounded-0">
+    Η διεύθυνση e-mail ή/και το συνθηματικό που δόθηκαν δεν είναι σωστά.
+  </div>
+}
+
+<button
+  class="btn btn-primary rounded-0"
+  [disabled]="this.form.invalid"
+  (click)="onSubmit()"
+>
+  Είσοδος
+</button>
+
+<!-- Tooltip for password -->
+<ng-template #tipPassword>
+  Πρέπει να περιέχει τουλάχιστον 8 χαρακτήρες χωρίς κενά, εκ των οποίων τουλάχιστον:
+  <ul>
+    <li>1 πεζό λατινικό γράμμα</li>
+    <li>1 κεφαλαίο λατινικό γράμμα</li>
+    <li>1 ψηφίο</li>
+    <li>1 ειδικό χαρακτήρα: !&#64;#$%^&+=</li>
+  </ul>
+</ng-template>

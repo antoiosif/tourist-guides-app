@@ -1,0 +1,32 @@
+INSERT INTO users (id, created_at, updated_at, is_active, username, password, firstname, lastname, gender, role) VALUES
+    (2, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide1@guides.gr', '$2a$12$OQoJFhjXKI2FSml/6kVqVebW9E0Y1Hl9tROXOx.FWS14av0muJuEy', 'Αλέξανδρος', 'Παπασωτηρίου', 'MALE', 'GUIDE'),
+    (3, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide2@guides.gr', '$2a$12$.7eQgAlz3A4FG7fP8zgtoOqH6zbvwXsKTU.Rrz3lFpXJP2cPrYZd.', 'Μαρία', 'Παπασταύρου', 'FEMALE', 'GUIDE'),
+    (4, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide3@guides.gr', '$2a$12$UNdZAtvxvxdpH38PQqirv.83Yt.uDDHDIk1DjSNbFOjZRFDd.CDdC', 'Έρη', 'Μιχαηλίδου', 'FEMALE', 'GUIDE'),
+    (5, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide4@guides.gr', '$2a$12$nAWtAXPA/i2JP0XDLdwHW.0lY0cMSl6OWPKZ29UuQH8sVJV/DdZIy', 'Σωτήρης', 'Παπαδόπουλος', 'MALE', 'GUIDE'),
+    (6, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide5@guides.gr', '$2a$12$BnUcwXSENJqcyFEozY8W5u2GDRaoG5/QRJdCOlb7vweWxLZLAEdj.', 'Έφη', 'Καπαγερίδου', 'FEMALE', 'GUIDE'),
+    (7, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide6@guides.gr', '$2a$12$yldJy/4kjzoUFcOGu6cOquU2dhfEsykG9tCYHkMr/B9bzkNNwqL0u', 'Ιωάννα', 'Μουρβάτη', 'FEMALE', 'GUIDE'),
+    (8, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide7@guides.gr', '$2a$12$XjS1pQMUf4YDsyKI0wZP7.NWR6RIeYnaZxZOndd6dTaArOy0RA/6y', 'Κωνσταντίνος', 'Παπαδόπουλος', 'MALE', 'GUIDE'),
+    (9, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide8@guides.gr', '$2a$12$FHMq/WMzq6JEyAeVGMcUXexHnBEsUDH2dk5iKW.s7SpTiU31Sl1x.', 'Πέτρος', 'Αχιλλέως', 'MALE', 'GUIDE'),
+    (10, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide9@guides.gr', '$2a$12$ReqFDIZLZGLje8yPO0xSZOro.G6ma0lzImf26dati.rB1yVQQYiFW', 'Διονύσης', 'Ευθυμιάδης', 'MALE', 'GUIDE'),
+    (11, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide10@guides.gr', '$2a$12$otUMihgZ1ZUpKxeNhC/ldOrab4vQN65mhrglz21INlCCuqec5iiFC', 'Ελευθερία', 'Χαριστέα', 'FEMALE', 'GUIDE'),
+    (12, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide11@guides.gr', '$2a$12$TCZniWFaEWR1vvxWqw/ndO2IJUrLJbG.K2zLC32m6/qDwrbj7fSga', 'Γιαννούλα', 'Χαλεπά', 'FEMALE', 'GUIDE'),
+    (13, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 0, 'guide12@guides.gr', '$2a$12$IF/Es.A9Sjt3Qu//zcD3y.5I8l4eQqcwLIgp6uBcMag1e6nyubuRK', 'Αναστασία', 'Πέτρου', 'FEMALE', 'GUIDE'),
+    (14, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide13@guides.gr', '$2a$12$Y8Mc7n.FRDrX2r2PCj5ysenixVLjJyJHt02X.vqL5yCLXOolGct5u', 'Κατερίνα', 'Διονυσίου', 'FEMALE', 'GUIDE'),
+    (15, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'guide14@guides.gr', '$2a$12$iJwh5ZMdxCj7Qm9FuBi4ZOO8dTtJNan/BNqku18wewytBysPevGSm', 'Δημήτρης', 'Αποστολίδης', 'MALE', 'GUIDE'),
+
+    (16, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor1@yahoo.gr', '$2a$12$Fj53KNi2a/hQ0H7Gyr19kOC91trkw2vdFFXMM/GSDVoLikLsJxR0y', 'Στράτος', 'Ηλιάδης', 'MALE', 'VISITOR'),
+    (17, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor2@yahoo.gr', '$2a$12$nsRdjaCoHzupMpUzI.RfGOwUKVa6RTEHNHnXs4mXCB6R48BCFz6Ia', 'Ευρυπίδης', 'Δημητρίου', 'MALE', 'VISITOR'),
+    (18, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 0, 'visitor3@yahoo.gr', '$2a$12$.r0y9inBnKEz.T8C7pb4au4qM4DmgBBl8H0YPGg8yDamyromFJHwm', 'Χαρά', 'Ευσταθίου', 'FEMALE', 'VISITOR'),
+    (19, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor4@yahoo.gr', '$2a$12$cq94DyEnn2F.89LnunaEKeTcyEGXRbKBSTCWMAL3gXeag07ZaEgOK', 'Διομήδης', 'Νέστορος', 'MALE', 'VISITOR'),
+    (20, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor5@yahoo.gr', '$2a$12$jWRuDGC5DG3K6SfxNqF6F.K8fiec3ZnxEqUr7D1tBvWdxxXTyc1Eq', 'Ελπίδα', 'Παπαδοπούλου', 'FEMALE', 'VISITOR'),
+    (21, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor6@yahoo.gr', '$2a$12$RXydwkot0w6QRCEPpMm32.9QdWF9AxtX1krjsOr.lPc5o4HUKGe0.', 'Γιάννης', 'Κωστής', 'MALE', 'VISITOR'),
+    (22, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor7@yahoo.gr', '$2a$12$hJW5eqHcr/mfwvFba21tvebZPyMqlH7oHvcflwBhLcEMYSWhJOysm', 'Αφροδίτη', 'Πέτρου', 'FEMALE', 'VISITOR'),
+    (23, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor8@yahoo.gr', '$2a$12$MOtIEdOzV4aUgcTJ/U8ep.LlBMf80H3kQ1w0eU5iGD38jVdBaCKoG', 'Παύλος', 'Εμμανουηλίδης', 'MALE', 'VISITOR'),
+    (24, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor9@yahoo.gr', '$2a$12$UTn8MLSOF0ET3m7lK0Ei/OvKAxWRqiz2XUp0BRfMn5fpuPv3MvSdy', 'Διονυσία', 'Αγαπίου', 'FEMALE', 'VISITOR'),
+    (25, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor10@yahoo.gr', '$2a$12$jBvCJjNQjouyOtG3sBBTdeuj1o8sHv7yHt6TmaXxK8oUbIwG4M8jW', 'Μέλπω', 'Σεϊτσανίδου', 'FEMALE', 'VISITOR'),
+    (26, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor11@yahoo.gr', '$2a$12$EDHOEhL7nVZJkGAqCKj7z.qmhw5bncirQxgaE427Skp83zP9HXS/O', 'Χριστίνα', 'Κότσιρα', 'FEMALE', 'VISITOR'),
+    (27, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 0, 'visitor12@yahoo.gr', '$2a$12$dLTdzlL31R.q7rvrziMn6O3VDTS31cxyunRypbSmITZ.rDWfpjBg.', 'Ρούλα', 'Αυγουστίδου', 'FEMALE', 'VISITOR'),
+    (28, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor13@yahoo.gr', '$2a$12$3c1a9cb8fYMQM4jVr2nZJe8b9tcrU8I8uYqd/bhkXj3SPFgwhKRc.', 'Πέτρος', 'Πολυτίδης', 'MALE', 'VISITOR'),
+    (29, '2025-07-30 10:00:00', '2025-07-30 10:00:00', 1, 'visitor14@yahoo.gr', '$2a$12$AxFp3Iaibp07NDUomFvLI.QytvmdObj30/u7VUoABcjCmo79t8J16', 'Μανώλης', 'Κορακάκης', 'MALE', 'VISITOR');
+
+ALTER TABLE users AUTO_INCREMENT = 30;

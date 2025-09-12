@@ -1,0 +1,55 @@
+<div class="w-50">
+  <!-- Link to Go Back -->
+  <app-link-go-back></app-link-go-back>
+
+  <!-- Alert for confirmation to Delete Language -->
+  @if(isConfirmationAlertVisible) {
+    <app-alert-delete-confirmation
+      [text1]="'διαγράψετε τη γλώσσα'"
+      [text2]="'id'"
+      [idToDelete]="idToDelete"
+      (onDelete)="proceedToDelete(idToDelete)"
+      (onCancelDelete)="cancelDelete()"
+    >
+    </app-alert-delete-confirmation>
+  }
+
+  <!-- Alert for success/failure of Insert/Update/Delete Language-->
+  <app-alert-success-failure [status]="status"></app-alert-success-failure>
+
+  <!-- Button for Insert Language -->
+  <button
+    class="mb-4 btn btn-outline-primary rounded-0"
+    [disabled]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+    (click)="isInsertFormCollapsed = !isInsertFormCollapsed"
+  >
+    + Εισαγωγή Νέας Γλώσσας
+  </button>
+
+  <!-- Insert Form -->
+  <app-language-insert-form 
+    [ngbCollapse]="isInsertFormCollapsed" 
+    (onInsert)="handleInsertAlerts($event)" 
+    (onCancelInsert)="isInsertFormCollapsed = !isInsertFormCollapsed"
+  >
+  </app-language-insert-form>
+
+  <!-- Update Form -->
+  <app-language-update-form 
+    [ngbCollapse]="isUpdateFormCollapsed"
+    [idToUpdate]="idToUpdate"
+    (onUpdate)="handleUpdateAlerts($event)"
+    (onCancelUpdate)="isUpdateFormCollapsed = !isUpdateFormCollapsed"
+  >
+  </app-language-update-form>
+
+  <!-- Table of languages -->
+  <app-languages-table 
+    [isInsertFormCollapsed]="isInsertFormCollapsed"
+    [isUpdateFormCollapsed]="isUpdateFormCollapsed"
+    [isConfirmationAlertVisible]="isConfirmationAlertVisible"
+    (onClickUpdate)="setToUpdate($event)"
+    (onClickDelete)="setToDelete($event)" 
+  >
+  </app-languages-table>
+</div>

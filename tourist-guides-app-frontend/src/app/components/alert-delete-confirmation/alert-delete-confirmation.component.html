@@ -1,0 +1,8 @@
+<ngb-alert type="danger" [dismissible]="false" class="rounded-0">
+  <p class="fw-bold">Διαγραφή</p>
+  <p>Είστε βέβαιοι ότι θέλετε να {{ text1 }} με <span class="fw-semibold">{{ text2 }}={{ idToDelete }}</span>;</p>
+  <div class="d-flex gap-3">
+    <button class="btn btn-danger px-5 rounded-0" (click)="confirmDelete()">Ναι</button>
+    <button class="btn btn-light px-5 rounded-0" (click)="cancelDelete()">Όχι</button>
+  </div>
+</ngb-alert>

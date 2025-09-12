@@ -1,0 +1,55 @@
+<div class="w-50">
+  <!-- Link to Go Back -->
+  <app-link-go-back></app-link-go-back>
+
+  <!-- Alert for confirmation to Delete Region -->
+  @if(isConfirmationAlertVisible) {
+    <app-alert-delete-confirmation
+      [text1]="'διαγράψετε την περιοχή'"
+      [text2]="'id'"
+      [idToDelete]="idToDelete"
+      (onDelete)="proceedToDelete(idToDelete)"
+      (onCancelDelete)="cancelDelete()"
+    >
+    </app-alert-delete-confirmation>
+  }
+
+  <!-- Alert for success/failure of Insert/Update/Delete Region-->
+  <app-alert-success-failure [status]="status"></app-alert-success-failure>
+
+  <!-- Button for Insert Region -->
+  <button
+    class="mb-4 btn btn-outline-primary rounded-0"
+    [disabled]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+    (click)="isInsertFormCollapsed = !isInsertFormCollapsed"
+  >
+    + Εισαγωγή Νέας Περιοχής
+  </button>
+
+  <!-- Insert Form -->
+  <app-region-insert-form 
+    [ngbCollapse]="isInsertFormCollapsed" 
+    (onInsert)="handleInsertAlerts($event)" 
+    (onCancelInsert)="isInsertFormCollapsed = !isInsertFormCollapsed"
+  >
+  </app-region-insert-form>
+
+  <!-- Update Form -->
+  <app-region-update-form 
+    [ngbCollapse]="isUpdateFormCollapsed"
+    [idToUpdate]="idToUpdate"
+    (onUpdate)="handleUpdateAlerts($event)"
+    (onCancelUpdate)="isUpdateFormCollapsed = !isUpdateFormCollapsed"
+  >
+  </app-region-update-form>
+
+  <!-- Table of regions -->
+  <app-regions-table 
+    [isInsertFormCollapsed]="isInsertFormCollapsed"
+    [isUpdateFormCollapsed]="isUpdateFormCollapsed"
+    [isConfirmationAlertVisible]="isConfirmationAlertVisible"
+    (onClickUpdate)="setToUpdate($event)"
+    (onClickDelete)="setToDelete($event)" 
+  >
+  </app-regions-table>
+</div>

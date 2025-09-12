@@ -1,0 +1,74 @@
+<!-- Insert Language Form -->
+<form [formGroup]="form" class="row">
+
+  <!-- control: code -->
+  <div class="col-lg-6 mb-3">
+    <label for="code" class="form-label text-secondary fw-bold">
+      Κωδικός Γλώσσας (κατά ISO 639-2)*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="code?.invalid && (code?.dirty || code?.touched)"
+      id="code"
+      type="text"
+      required
+      formControlName="code"
+      (blur)="checkCodeExists()"
+    />
+    <!-- Validation error messages -->
+    @if (code?.invalid && (code?.dirty || code?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (code?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (code?.hasError('pattern')) {
+            <div class="invalid-feedback d-block">Πρέπει να αποτελείται από 3 λατινικούς χαρακτήρες</div>
+          }
+        }
+      }
+    }
+  </div>
+
+  <!-- control: name -->
+  <div class="col-lg-6 mb-3">
+    <label for="name" class="form-label text-secondary fw-bold">
+      Γλώσσα*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="name?.invalid && (name?.dirty || name?.touched)"
+      id="name"
+      type="text"
+      required
+      formControlName="name"
+      (blur)="checkNameExists()"
+    />
+    <!-- Validation error messages -->
+    @if (name?.invalid && (name?.dirty || name?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (name?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (name?.hasError('minlength')) {
+            <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 2 χαρακτήρες</div>
+          }
+        }
+      }
+    }
+  </div>
+</form>
+
+<!-- Buttons -->
+<div class="d-flex gap-3 mb-4">
+  <button 
+    class="btn btn-primary rounded-0" 
+    [disabled]="this.form.invalid" 
+    (click)="onSubmit()"
+  >
+    Αποθήκευση
+  </button>
+  <button 
+    class="btn btn-outline-primary rounded-0"
+    (click)="onCancel()"
+  >
+    Άκυρο
+  </button>
+</div>

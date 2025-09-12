@@ -1,0 +1,42 @@
+<table class="my-4 table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Όνομα</th>
+      <th scope="col">Επώνυμο</th>
+      <th scope="col">Περιοχή διαμονής</th>
+      <th scope="col" class="text-center">Κατάσταση</th>
+      <th scope="col" class="text-center">Προβολή</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (visitor of visitors; track visitor.id) {
+      <tr class="align-middle">
+        <td>{{ visitor.id }}</td>
+        <td>{{ visitor.userReadOnlyDTO.firstname }}</td>
+        <td>{{ visitor.userReadOnlyDTO.lastname }}</td>
+        <td>{{ visitor.region }}</td>
+        <td class="text-center">
+          @if(visitor.isActive) {
+            <span class="badge text-bg-success">Ενεργός</span>
+          } @else {
+            <span class="badge text-bg-danger">Ανενεργός</span>
+          }
+        </td>
+        <td class="text-center">
+          <button
+            class="border-0 bg-transparent text-blue"
+            [class.text-secondary]="!visitor.isActive"
+            (click)="navigateToAccount(visitor.uuid)"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td class="text-center" colspan="6">Δε βρέθηκαν Επισκέπτες με αυτά τα κριτήρια</td>
+      </tr>
+    }
+  </tbody>
+</table>

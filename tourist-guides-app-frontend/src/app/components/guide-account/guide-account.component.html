@@ -1,0 +1,444 @@
+<!-- Link to Go Back to Guides List - visible only to role 'SUPER_ADMIN' -->
+<app-link-go-back-to
+  [text]="'Κατάλογος Διπλωματούχων Ξεναγών'"
+  [link]="'/guides/list-of-licensed-tourist-guides'"
+  [class.d-none]="user()?.role !== 'SUPER_ADMIN'"
+>
+</app-link-go-back-to>
+
+<h3 class="mt-3 mb-5">Ο Λογαριασμός μου</h3>
+
+<!-- Alert for confirmation to Delete Guide -->
+@if(isConfirmationAlertVisible) {
+  <app-alert-delete-confirmation
+    [text1]="'απενεργοποιήσετε τον λογαριασμό'"
+    [text2]="'uuid'"
+    [idToDelete]="guideUuid"
+    (onDelete)="proceedToDelete(guideUuid)"
+    (onCancelDelete)="cancelDelete()"
+  >
+  </app-alert-delete-confirmation>
+}
+
+<!-- Alert for success/failure of Update/Delete Guide -->
+<app-alert-success-failure [status]="status"></app-alert-success-failure>
+
+<form [formGroup]="form" class="row">
+  <p class="fst-italic">Τα πεδία με αστερίσκο (*) είναι υποχρεωτικά</p>
+  
+  <!-- visible only to role 'SUPER_ADMIN' -->
+  <h4 class="my-3 pb-2 border-bottom text-blue" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">Στοιχεία Χρήστη</h4>
+
+  <!-- control: userIsActive - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-12 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        formControlName="userIsActive"
+      />
+      <label class="form-check-label text-secondary fw-bold">
+        Ενεργός
+      </label>
+    </div>
+  </div>
+
+  <!-- control: userId - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-sm-2 col-lg-1 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      Id
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      formControlName="userId"
+    />
+  </div>
+
+  <!-- control: username - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-sm-5 col-lg-6 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      E-mail
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      formControlName="username"
+    />
+  </div>
+
+  <!-- control: password - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-sm-5 col-lg-5 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      Password
+    </label>
+    <input
+      class="form-control"
+      type="password"
+      formControlName="password"
+    />
+  </div>
+
+  <!-- visible only to role 'SUPER_ADMIN' -->
+  <h4 class="my-3 pb-2 border-bottom text-blue" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">Στοιχεία Ξεναγού</h4>
+
+  <!-- control: isActive - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-12 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        formControlName="isActive"
+      />
+      <label class="form-check-label text-secondary fw-bold">
+        Ενεργός
+      </label>
+    </div>
+  </div>
+
+  <!-- control: Id - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-sm-2 col-lg-1 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      Id
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      formControlName="id"
+    />
+  </div>
+
+  <!-- control: createdAt - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-sm-5 col-lg-3 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      Δημιουργία
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      formControlName="createdAt"
+    />
+  </div>
+
+  <!-- control: updatedAt - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-sm-5 col-lg-3 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      Τελευταία τροποποίηση
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      formControlName="updatedAt"
+    />
+  </div>
+
+  <!-- control: uuid - visible only to role 'SUPER_ADMIN' -->
+  <div class="col-lg-5 mb-3" [class.d-none]="user()?.role !== 'SUPER_ADMIN'" title="Πεδίο μόνο για Προβολή">
+    <label class="form-label text-secondary fw-bold">
+      UUID
+    </label>
+    <input
+      class="form-control"
+      type="text"
+      formControlName="uuid"
+    />
+  </div>
+
+  <!-- control: firstname -->
+  <div class="col-sm-6 col-lg-3 min-height-115">
+    <label for="firstname" class="form-label text-secondary fw-bold">
+      Όνομα*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="firstname?.invalid && (firstname?.dirty || firstname?.touched)"
+      id="firstname"
+      type="text"
+      required
+      formControlName="firstname"
+    />
+    <!-- Validation error messages -->
+    @if (firstname?.invalid && (firstname?.dirty || firstname?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (firstname?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (firstname?.hasError('pattern')) {
+            <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 2 χαρακτήρες και καθόλου κενά</div>
+          }
+        }
+      }
+    }
+  </div>
+
+  <!-- control: lastname -->
+  <div class="col-sm-6 col-lg-3 min-height-115">
+    <label for="lastname" class="form-label text-secondary fw-bold">
+      Επώνυμο*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="lastname?.invalid && (lastname?.dirty || lastname?.touched)"
+      id="lastname"
+      type="text"
+      required
+      formControlName="lastname"
+    />
+    <!-- Validation error messages -->
+    @if (lastname?.invalid && (lastname?.dirty || lastname?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (lastname?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (lastname?.hasError('pattern')) {
+            <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 2 χαρακτήρες και καθόλου κενά</div>
+          }
+        }
+      }
+    }
+  </div>
+
+  <!-- control: recordNumber -->
+  <div class="col-sm-6 col-lg-3 min-height-115">
+    <label for="recordNumber" class="form-label text-secondary fw-bold">
+      Αριθμός Μητρώου*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="recordNumber?.invalid && (recordNumber?.dirty || recordNumber?.touched)"
+      id="recordNumber"
+      type="text"
+      required
+      formControlName="recordNumber"
+      (blur)="checkRecordNumberExists()"
+    />
+    <!-- Validation error messages -->
+    @if (recordNumber?.invalid && (recordNumber?.dirty || recordNumber?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (recordNumber?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (recordNumber?.hasError('pattern')) {
+            <div class="invalid-feedback d-block">Πρέπει να περιέχει τουλάχιστον 5 χαρακτήρες και καθόλου κενά</div>
+          }
+        }
+      }
+    }
+  </div>
+
+  <!-- control: dateOfIssue -->
+  <div class="col-sm-6 col-lg-3 min-height-115">
+    <label class="form-label text-secondary fw-bold">
+      Ημερομηνία έκδοσης*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="dateOfIssue?.invalid && (dateOfIssue?.dirty || dateOfIssue?.touched)"
+      id="dateOfIssue"
+      type="date"
+      required
+      formControlName="dateOfIssue"
+    />
+    <!-- Validation error messages -->
+    @if (dateOfIssue?.invalid && (dateOfIssue?.dirty || dateOfIssue?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (dateOfIssue?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: gender -->
+  <div class="mb-4 d-flex flex-row gap-3">
+    <div>
+      <input
+        class="form-check-input me-2"
+        id="male"
+        type="radio"
+        value="MALE"
+        formControlName="gender"
+      />
+      <label for="male" class="form-label text-secondary fw-bold">
+        Άνδρας
+      </label>
+    </div>
+    <div>
+      <input
+        class="form-check-input me-2"
+        id="female"
+        type="radio"
+        value="FEMALE"
+        formControlName="gender"
+      />
+      <label for="female" class="form-label text-secondary fw-bold">
+        Γυναίκα
+      </label>
+    </div>
+    <div>
+      <input
+        class="form-check-input me-2"
+        id="other"
+        type="radio"
+        value="OTHER"
+        formControlName="gender"
+      />
+      <label for="other" class="form-label text-secondary fw-bold">
+        Άλλο
+      </label>
+    </div>
+  </div>
+
+  <p class="bg-blue-1 p-3">
+    Τα παρακάτω στοιχεία θα είναι ορατά στον <b>Κατάλογο Διπλωματούχων Ξεναγών</b>
+  </p>
+
+  <!-- control: phoneNumber -->
+  <div class="col-sm-6 col-md-4 col-lg-3 min-height-115">
+    <label for="phoneNumber" class="form-label text-secondary fw-bold">
+      Τηλέφωνο επικοινωνίας
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)"
+      id="phoneNumber"
+      type="text"
+      formControlName="phoneNumber"
+    />
+    <!-- Validation error messages -->
+    @if (phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (phoneNumber?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">
+              Πρέπει να αποτελείται από 10 ψηφία χωρίς κενά
+          </div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: email -->
+  <div class="col-sm-6 col-md-8 col-lg-3 min-height-115">
+    <label for="email" class="form-label text-secondary fw-bold">
+      E-mail επικοινωνίας
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="email?.invalid && (email?.dirty || email?.touched)"
+      id="email"
+      type="text"
+      formControlName="email"
+    />
+    <!-- Validation error messages -->
+    @if (email?.invalid && (email?.dirty || email?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (email?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: regionId -->
+  <div class="col-sm-6 col-md-6 col-lg-3 min-height-115">
+    <div class="d-flex justify-content-between">
+      <label for="regionId" class="form-label text-secondary fw-bold">
+        Περιοχή διαμονής*
+      </label>
+      <!-- link visible only to role 'SUPER_ADMIN' -->
+      <a 
+        class="text-blue" 
+        [class.d-none]="user()?.role !== 'SUPER_ADMIN'" 
+        routerLink="/regions/edit"
+      >
+        Επεξεργασία
+      </a>
+    </div>
+    <select
+      class="form-select"
+      id="regionId"
+      required
+      formControlName="regionId"
+    >
+      @for (region of regions(); track region.id) {
+        <option [value]="region.id">{{ region.name }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- control: languageId -->
+  <div class="col-sm-6 col-md-6 col-lg-3 min-height-115">
+    <div class="d-flex justify-content-between">
+      <label for="languageId" class="form-label text-secondary fw-bold">
+        Γλώσσα*
+      </label>
+      <!-- link visible only to role 'SUPER_ADMIN' -->
+      <a 
+        class="text-blue" 
+        [class.d-none]="user()?.role !== 'SUPER_ADMIN'" 
+        routerLink="/languages/edit"
+      >
+        Επεξεργασία
+      </a>
+    </div>
+    <select
+      class="form-select"
+      id="languageId"
+      required
+      formControlName="languageId"
+    >
+      @for (language of languages(); track language.id) {
+        <option [value]="language.id">{{ language.name }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- control: bio -->
+  <div>
+    <label for="bio" class="form-label text-secondary fw-bold">
+      Βιογραφικό <span class="fs-08 fw-normal">(έως 5000 χαρακτήρες)</span>
+    </label>
+    <textarea 
+      class="form-control h-300" 
+      [class.is-invalid]="bio?.invalid && (bio?.dirty || bio?.touched)"
+      id="bio"
+      formControlName="bio"
+    >
+    </textarea>
+    <!-- Validation error messages -->
+    @if (bio?.invalid && (bio?.dirty || bio?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (bio?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">
+              Το κείμενο πρέπει να περιέχει έως 5000 χαρακτήρες
+          </div>
+        }
+      }
+    }
+  </div>
+</form>  
+
+<!-- Buttons -->
+<div class="d-flex justify-content-between my-5">
+  <div class="d-flex gap-3">
+    <button 
+      class="btn btn-primary rounded-0" 
+      [disabled]="this.form.invalid"
+      [disabled]="this.form.disabled" 
+      (click)="onSubmit()"
+    >
+      Αποθήκευση
+    </button>
+    <button 
+      class="btn btn-outline-primary rounded-0" 
+      [disabled]="this.form.disabled" 
+      (click)="onCancel()"
+    >
+      Άκυρο
+    </button>
+  </div>
+  <button 
+    class="btn btn-outline-danger rounded-0" 
+    [disabled]="this.form.disabled" 
+    (click)="setToDelete(guideUuid)"
+  >
+    Απενεργοποίηση Λογαριασμού
+  </button>
+</div>

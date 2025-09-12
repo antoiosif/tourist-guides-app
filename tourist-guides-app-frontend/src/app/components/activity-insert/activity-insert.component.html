@@ -1,0 +1,194 @@
+<!-- Link to Go Back to Activities List -->
+<app-link-go-back-to
+  [text]="'Δραστηριότητες'"
+  [link]="'/activities/list-of-activities'"
+>
+</app-link-go-back-to>
+
+<h3 class="mt-3 mb-5">Εισαγωγή Δραστηριότητας</h3>
+
+<!-- Alert for success/failure of Insert Activity -->
+<app-alert-success-failure [status]="insertStatus"></app-alert-success-failure>
+
+<!-- Insert Activity Form -->
+<form [formGroup]="form" class="row">
+  <p class="mb-5 fst-italic">Τα πεδία με αστερίσκο (*) είναι υποχρεωτικά</p>
+
+  <!-- control: title -->
+  <div class="min-height-115">
+    <label for="title" class="form-label text-secondary fw-bold">
+      Τίτλος* <span class="fs-08 fw-normal">(έως 90 χαρακτήρες)</span>
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="title?.invalid && (title?.dirty || title?.touched)"
+      id="title"
+      type="text"
+      required
+      formControlName="title"
+    />
+    <!-- Validation error messages -->
+    @if (title?.invalid && (title?.dirty || title?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (title?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (title?.hasError('maxlength')) {
+            <div class="invalid-feedback d-block">Ο τίτλος πρέπει να περιέχει έως 90 χαρακτήρες</div>
+          }
+        }
+      }
+    }
+  </div>
+
+  <!-- control: dateTime -->
+  <div class="col-6 col-lg-3 min-height-115">
+    <label for="dateTime" class="form-label text-secondary fw-bold">
+      Ημερομηνία και Ώρα*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="dateTime?.invalid && (dateTime?.dirty || dateTime?.touched)"
+      id="dateTime"
+      type="datetime-local"
+      required
+      formControlName="dateTime"
+    />
+    <!-- Validation error messages -->
+    @if (dateTime?.invalid && (dateTime?.dirty || dateTime?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (dateTime?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: price -->
+  <div class="col-6 col-lg-3 min-height-115">
+    <label for="price" class="form-label text-secondary fw-bold">
+      Κόστος*
+    </label>
+    <input
+      class="form-control"
+      [class.is-invalid]="price?.invalid && (price?.dirty || price?.touched)"
+      id="price"
+      type="number"
+      min="0"
+      step="0.50"
+      required
+      formControlName="price"
+    />
+    <!-- Validation error messages -->
+    @if (price?.invalid && (price?.dirty || price?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (price?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: status -->
+  <div class="col-6 col-lg-3 min-height-115">
+    <label for="status" class="form-label text-secondary fw-bold">
+      Κατάσταση*
+    </label>
+    <select
+      class="form-select"
+      [class.is-invalid]="status?.invalid && (status?.dirty || status?.touched)"
+      id="status"
+      required
+      formControlName="status"
+    >
+      <option value="ACTIVE" selected>Ενεργή</option>
+      <option value="COMPLETED" disabled hidden>Ολοκληρωμένη</option>
+      <option value="CANCELLED" disabled hidden>Ακυρωμένη</option>
+    </select>
+    <!-- Validation error messages -->
+    @if (status?.invalid && (status?.dirty || status?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (status?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+
+  <!-- control: categoryId -->
+  <div class="col-6 col-lg-3 min-height-115">
+    <div class="d-flex justify-content-between">
+        <label for="categoryId" class="form-label text-secondary fw-bold">
+          Κατηγορία*
+        </label>
+        <a 
+          class="text-blue" 
+          routerLink="/categories/edit"
+        >
+          Επεξεργασία
+        </a>
+      </div>
+    <select
+      class="form-select"
+      [class.is-invalid]="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)"
+      id="categoryId"
+      required
+      formControlName="categoryId"
+    >
+      <option value="" disabled hidden>-- Επιλέξτε κατηγορία --</option>
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+    <!-- Validation error messages -->
+    @if (categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (categoryId?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+        }
+      }
+    }
+  </div>
+  
+  <!-- control: description  -->
+  <div class="mb-5">
+    <label for="description" class="form-label text-secondary fw-bold">
+      Περιγραφή* <span class="fs-08 fw-normal">(έως 1000 χαρακτήρες)</span>
+    </label>
+    <textarea 
+      class="form-control h-300" 
+      [class.is-invalid]="description?.invalid && (description?.dirty || description?.touched)"
+      id="description"
+      required
+      formControlName="description"
+    >
+    </textarea>
+    <!-- Validation error messages -->
+    @if (description?.invalid && (description?.dirty || description?.touched)) {
+      @for (error of validationErrors; track error) {
+        @if (description?.hasError(error.name)) {
+          <div class="invalid-feedback d-block">{{ error.message }}</div>
+          @if (description?.hasError('maxlength')) {
+            <div class="invalid-feedback d-block">Η περιγραφή πρέπει να περιέχει έως 1000 χαρακτήρες</div>
+          }
+        }
+      }
+    }
+  </div>
+</form>
+
+<!-- Buttons -->
+<div class="d-flex gap-3">
+  <button 
+    class="btn btn-primary rounded-0" 
+    [disabled]="this.form.invalid" 
+    (click)="onSubmit()"
+  >
+    Δημιουργία
+  </button>
+  <button 
+    class="btn btn-outline-primary rounded-0" 
+    (click)="onCancel()"
+  >
+    Άκυρο
+  </button>
+</div>

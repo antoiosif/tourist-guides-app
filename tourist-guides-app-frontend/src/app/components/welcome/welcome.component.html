@@ -1,0 +1,52 @@
+<div class="d-lg-flex gap-5">
+  <!-- Image visible to screens smaller than size 'lg' -->
+  <img class="col-12 d-lg-none" src="odeon-of-herodus-atticus.jpg" alt="Ωδείο Ηρώδου του Αττικού" />
+
+  <!-- Image visible to screens from size 'lg' and bigger -->
+  <img class="d-none d-lg-flex col-6"src="caryatides.jpg"alt="Οι Καρυάτιδες στο Ερεχθείο" />
+
+  <div class="col-lg-5 mt-4">
+    <h2 class="text-blue">
+      Καλωσορίσατε στις Ψηφιακές Υπηρεσίες του Σωματείου Διπλωματούχων Ξεναγών
+    </h2>
+    <p class="mt-4">Μέσω των ψηφιακών υπηρεσιών μπορείτε:</p>
+    <ul>
+      <li>
+        Αν είστε <b>Διπλωματούχος Ξεναγός</b>
+        <ul>
+          <li>Να καταχωρήσετε τα στοιχεία σας στον <span class="fw-semibold">Κατάλογο Διπλωματούχων Ξεναγών</span>, ο οποίος είναι ορατός σε κάθε εγγεγραμμένο χρήστη της πλατφόρμας</li>
+          <li>Να ενημερώνεστε για τις δραστηριότητες που διοργανώνει το Σωματείο στα πλαίσια της συνεχούς εκπαίδευσης που παρέχει στα μέλη του (σεμινάρια, εκδρομές, επισκέψεις σε μουσεία και εκθέσεις κ.ά) και να αποθηκεύετε τις αγαπημένες σας</li>
+        </ul>
+      </li>
+      <li>
+        Αν είστε <b>Επισκέπτης</b>
+        <ul>
+          <li>Να έχετε πρόσβαση στον έγκυρο <span class="fw-semibold">Κατάλογο Διπλωματούχων Ξεναγών</span>-μελών του Σωματείου, ώστε να επιλέξετε τον επόμενο ξεναγό σας</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      Οι ψηφιακές υπηρεσίες προσφέρονται <b>δωρεάν</b> και απαιτούν να δημιουργήσετε έναν προσωπικό λογαριασμό. Ο λογαριασμός σας αυτός θα εξυπηρετεί όλες τις επαφές σας με τις ψηφιακές υπηρεσίες του σωματείου από όποιο σημείο του κόσμου βρίσκεστε.
+    </p>
+
+    <!-- Buttons for registration - visible only if there isn't Logged In user -->
+    @if (!user()) {
+      <div class="mt-4 d-flex flex-row gap-3 align-items-center justify-content-center">
+        <a 
+          class="btn btn-primary rounded-pill" 
+          role="button" 
+          routerLink="guides/register"
+        >
+          Εγγραφή Ξεναγού
+        </a>
+        <a 
+          class="btn btn-primary rounded-pill" 
+          role="button" 
+          routerLink="visitors/register"
+        >
+          Εγγραφή Επισκέπτη
+        </a>
+      </div>
+    }
+  </div>
+</div>

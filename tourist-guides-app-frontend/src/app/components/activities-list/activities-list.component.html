@@ -1,0 +1,196 @@
+<h3 class="mb-5">Δραστηριότητες</h3>
+
+<!-- Button for Insert Activity - visible only to role 'SUPER_ADMIN' -->
+<button
+  class="mb-4 btn btn-outline-primary rounded-0"
+  [class.d-none]="user()?.role !== 'SUPER_ADMIN'"
+  routerLink='/activities/insert'
+>
+  + Εισαγωγή Νέας Δραστηριότητας
+</button>
+
+<!-- Filtering Form - visible only to role 'SUPER_ADMIN' -->
+@if (user()?.role === 'SUPER_ADMIN') {
+  <div class="mb-5 p-3 bg-body-tertiary">
+    <form class="row g-3" [formGroup]="form">
+      
+      <!-- filter: activity's uuid -->
+      <div class="col-md-6 col-lg-4">
+        <input class="form-control" type="text" placeholder="UUID" formControlName="uuid" />
+      </div>
+
+      <!-- filter: title -->
+      <div class="col-md-6 col-lg-8">
+        <input class="form-control" type="text" placeholder="Τίτλος Δραστηριότητας" formControlName="title" />
+      </div>
+
+      <!-- filter: status -->
+      <div class="col-sm-6 col-lg-4">
+        <select class="form-select" formControlName="status">
+          <option value="" selected>Όλες οι δραστηριότητες</option>
+          <option value="ACTIVE">Ενεργές</option>
+          <option value="COMPLETED">Ολοκληρωμένες</option>
+          <option value="CANCELLED">Ακυρωμένες</option>
+        </select>
+      </div>
+
+      <!-- filter: category -->
+      <div class="col-sm-6 col-lg-4">
+        <select class="form-select" formControlName="categoryId">
+          <option value="" selected>Όλες οι κατηγορίες</option>
+          @for (category of categories(); track category.id) {
+            <option value="{{ category.id }}">{{ category.name }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Buttons -->
+      <div class="d-flex gap-3">
+        <button 
+          class="btn btn-primary rounded-0"
+          (click)="onSubmit()"
+        >
+          Αναζήτηση
+        </button> 
+        <button 
+          class="btn btn-outline-primary rounded-0"
+          (click)="onReset()"
+        >
+          Εκκαθάριση
+        </button> 
+      </div>
+    </form>
+  </div>
+}
+
+<!-- Filtering Buttons - visible only to role 'GUIDE' -->
+@if (user()?.role === 'GUIDE') {
+  <div class="mb-5 p-3 bg-body-tertiary">
+    <p class="fw-semibold">Φίλτρα επιλογής</p>
+    <div class="d-md-flex gap-3">
+      <button 
+        class="mb-2 mb-md-0 d-block btn btn-sm btn-secondary rounded-pill hover-bg-blue-2 px-3"
+        (click)="onSubmitCategory(null)"
+      >
+        Όλες
+      </button>
+
+      @for (category of categories(); track category.id) {
+        <button 
+          class="mb-2 mb-md-0 d-block btn btn-sm btn-secondary rounded-pill hover-bg-blue-2 px-3"
+          (click)="onSubmitCategory(category.id)"
+        >
+          {{ category.name }}
+        </button>
+      }
+    </div>
+  </div>
+}
+
+<!-- Show the activities -->
+<div class="px-4 d-flex flex-wrap gap-5">
+  @for (activity of activities; track activity.id) {
+    <!-- Activity card -->
+    <div class="card border-0 pb-5 border-bottom" style="width: 24rem;">
+
+      <!-- Date - Time -->
+      <div class="text-center text-blue">
+        {{ formatDate(activity.dateTime)}} <span class="fw-bold">|</span> {{ activity.dateTime.slice(11,16) }}
+      </div> 
+
+      <!-- Title - Category -->
+      <div class="mb-3 text-center">
+        <div class="d-flex align-items-center justify-content-center min-height-90">
+          <a 
+            class="text-decoration-none text-primary hover-blue-2" 
+            routerLink="/activities/{{ activity.uuid }}"
+          >
+            <h3 class="card-title">{{ activity.title }}</h3>
+          </a>
+        </div>
+        <span class="mb-2 px-3 py-1 rounded-pill bg-gold text-primary fw-semibold fs-08">{{ activity.category.toUpperCase() }}</span>
+      </div>
+
+      <!-- Image - Status-->
+      <div style="position: relative;">
+        <div 
+          class="badge fw-semibold" 
+          [class.d-none]="user()?.role !== 'SUPER_ADMIN'"
+          [class.bg-success]="activity.status === 'ACTIVE'"
+          [class.bg-danger]="activity.status === 'COMPLETED'"
+          [class.bg-warning]="activity.status === 'CANCELLED'"
+          style="position: absolute; top: 20px; left: 10px;"
+        >
+          @if (activity.status === 'ACTIVE') {
+            ΕΝΕΡΓΗ
+          } @else if (activity.status === 'COMPLETED') {
+            ΟΛΟΚΛΗΡΩΘΗΚΕ
+          } @else {
+            ΑΚΥΡΩΘΗΚΕ
+          }
+        </div>
+        <img src="odeon-of-herodus-atticus-2.jpg" class="card-img-top rounded-0" />
+      </div>
+      
+      <!-- Buttons -->
+      <div class="pt-4 d-flex gap-3 justify-content-end">
+        <a 
+          class="btn btn-primary rounded-0"
+          routerLink="/activities/{{ activity.uuid }}" 
+        >
+          Περισσότερα...
+        </a>
+
+        <!-- visible only to role 'SUPER_ADMIN' -->
+        <a 
+          class="btn btn-outline-primary rounded-0"
+          [class.d-none]="user()?.role !== 'SUPER_ADMIN'"
+          routerLink="/activities/{{ activity.uuid }}/edit" 
+        >
+          Επεξεργασία
+        </a>
+      </div>
+    </div>
+  } @empty {
+    <div class="w-100 mb-5 text-center">
+      <p>Δε βρέθηκαν δραστηριότητες</p>
+    </div>
+  }
+</div>
+
+<!-- Pagination -->
+@if (activities.length > 0) {
+  <div class="mt-5 text-center">
+    <ul class="pagination justify-content-center">
+      <!-- link to the previous page -->
+      <li class="page-item">
+        <a class="page-link" aria-label="Previous" (click)="getPreviousPage()">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <!-- current page -->
+      <li>
+        <div class="mb-3 d-flex flex-nowrap px-2">
+          <label class="col-form-label me-2 ms-1">Σελίδα</label>
+          <input
+            #i
+            type="text"
+            class="form-control custom-pages-input w-40"
+            inputmode="numeric"
+            [value]="currentPage + 1"
+            (keyup.enter)="selectPage(i.value)"
+            (blur)="selectPage(i.value)"
+            (input)="formatInput($any($event).target)"
+          />
+          <span class="col-form-label text-nowrap px-2"> από {{ totalPages }}</span>
+        </div>
+      </li>
+      <!-- link to the next page -->
+      <li class="page-item">
+        <a class="page-link" aria-label="Next" (click)="getNextPage()">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+}

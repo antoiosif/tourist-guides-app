@@ -1,0 +1,46 @@
+<!-- Link to Go Back to Guides List -->
+<app-link-go-back-to
+  [text]="'Κατάλογος Διπλωματούχων Ξεναγών'"
+  [link]="'/guides/list-of-licensed-tourist-guides'"
+>
+</app-link-go-back-to>
+
+@if (!status.success && status.message !== 'Not attempted yet') {
+  <ngb-alert type="danger" [dismissible]="false" class="mt-4 rounded-0 text-center">
+    <strong>Σφάλμα: </strong>
+    @for (error of backendErrors; track error) {
+      @if (status.message === error.name) {
+        {{ error.message }}
+      }
+    }
+  </ngb-alert>
+} @else {
+  <!-- Guide's Basic Info -->
+  <div class="my-3 my-lg-5 px-5 px-lg-0 py-3 border-top border-bottom d-flex flex-column">
+    <h2 class="mb-4 fw-bold">{{ guide?.userReadOnlyDTO?.firstname }} {{ guide?.userReadOnlyDTO?.lastname }}</h2>
+    <div class="w-60 d-lg-flex justify-content-between">
+      <div class="mb-3 d-flex flex-column">
+        <span class="fw-semibold">Περιοχή διαμονής</span>
+        <span>{{ guide?.region }}</span>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <span class="fw-semibold">Γλώσσα</span>
+        <span>{{ guide?.language }}</span>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <span class="fw-semibold">Τηλέφωνο</span>
+        <span>{{ guide?.phoneNumber }}</span>
+      </div>
+      <div class="mb-3 d-flex flex-column">
+        <span class="fw-semibold">E-mail</span>
+        <span>{{ guide?.email }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guide's Bio - if it exists -->
+  <div class="px-5 px-lg-0" [class.d-none]="!guide?.bio">
+    <h3 class="mb-4">Βιογραφικό</h3>
+    <p class="fw-light">{{ guide?.bio }}</p>
+  </div>
+}

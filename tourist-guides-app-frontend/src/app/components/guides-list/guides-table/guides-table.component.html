@@ -1,0 +1,94 @@
+<table class="my-4 table table-striped">
+  <thead>
+    <tr>
+      <!-- Column visible to all screens - visible only to role 'SUPER_ADMIN' -->
+      <th scope="col" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">Id</th>
+
+      <!-- Column visible to all screens -->
+      <th scope="col">Ξεναγός</th>
+
+      <!-- Column visible only to screens under size 'lg' -->
+      <th scope="col" class="mobile-only">Επικοινωνία</th>
+
+      <!-- Columns visibles only to screens from size 'lg' and bigger -->
+      <th scope="col" class="desktop-only">Γλώσσα</th>
+      <th scope="col" class="desktop-only">Περιοχή διαμονής</th>
+      <th scope="col" class="desktop-only">Τηλέφωνο</th>
+      <th scope="col" class="desktop-only">E-mail</th>
+
+      <!-- Columns visible to all screens - visible only to role 'SUPER_ADMIN' -->
+      <th scope="col" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">Αριθμός Μητρώου</th>
+      <th scope="col" class="text-center" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">Κατάσταση</th>
+      <th scope="col" class="text-center" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">Προβολή</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (guide of guides; track guide.id) {
+      <tr class="align-middle">
+        <!-- Column 'Id' - visible only to role 'SUPER_ADMIN' -->
+        <td [class.d-none]="user()?.role !== 'SUPER_ADMIN'">{{ guide.id }}</td>
+
+        <!-- Column 'Ξεναγός' - different appearance for different screen sizes -->
+        <td>
+          <div class="fw-semibold">
+            <a 
+              class="text-primary hover-blue-2" 
+              [routerLink]="['/guides', guide.uuid]"
+            >
+              {{ guide.userReadOnlyDTO.firstname }} {{ guide.userReadOnlyDTO.lastname }}
+            </a>
+          </div>
+          <div class="mobile-only">{{ guide.region }}</div>
+          <div class="mobile-only text-blue">{{ guide.language }}</div>
+        </td>
+
+        <!-- Column 'Επικοινωνία' - visible only to screens under size 'lg' -->
+        <td class="mobile-only">
+          <span>Τ: {{ guide.phoneNumber }}</span>
+          <br>
+          <span>Ε: {{ guide.email }}</span>
+        </td>
+
+        <!-- Column 'Γλώσσα' - visible only to screens from size 'lg' and bigger -->
+        <td class="desktop-only">{{ guide.language }}</td>
+
+        <!-- Column 'Περιοχή διαμονής' - visible only to screens from size 'lg' and bigger -->
+        <td class="desktop-only">{{ guide.region }}</td>
+
+        <!-- Column 'Τηλέφωνο' - visible only to screens from size 'lg' and bigger -->
+        <td class="desktop-only">{{ guide.phoneNumber }}</td>
+
+        <!-- Column 'E-mail' - visible only to screens from size 'lg' and bigger -->
+        <td class="desktop-only">{{ guide.email }}</td>
+
+        <!-- Columns visible only to role 'SUPER_ADMIN' -->
+        <!-- Column 'Αριθμός Μητρώου' -->
+        <td class="fw-semibold" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">{{ guide.recordNumber }}</td>
+
+        <!-- Column 'Κατάσταση' -->
+        <td class="text-center" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">
+          @if(guide.isActive) {
+            <span class="badge text-bg-success">Ενεργός</span>
+          } @else {
+            <span class="badge text-bg-danger">Ανενεργός</span>
+          }
+        </td>
+
+        <!-- Column 'Προβολή' -->
+        <td class="text-center" [class.d-none]="user()?.role !== 'SUPER_ADMIN'">
+          <button
+            class="border-0 bg-transparent text-blue"
+            [class.text-secondary]="!guide.isActive"
+            (click)="navigateToAccount(guide.uuid)"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td class="text-center" colspan="9">Δε βρέθηκαν Ξεναγοί με αυτά τα κριτήρια</td>
+      </tr>
+    }
+  </tbody>
+</table>

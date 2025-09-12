@@ -1,0 +1,14 @@
+@if (status.success) {
+  <ngb-alert type="success" (closed)="closeAlert()" class="rounded-0 text-center">
+    <p class="my-0">{{ status.message }}</p>
+  </ngb-alert>
+} @else if (status.message !== 'Not attempted yet'){
+  <ngb-alert type="danger" (closed)="closeAlert()" class="rounded-0 text-center">
+    <strong>Σφάλμα: </strong>
+    @for (error of backendErrors; track error) {
+      @if (status.message === error.name) {
+        {{ error.message }}
+      }
+    }
+  </ngb-alert>
+}

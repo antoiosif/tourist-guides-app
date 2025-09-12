@@ -1,0 +1,46 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Κωδικός Γλώσσας</th>
+      <th scope="col">Γλώσσα</th>
+      <th scope="col" class="text-center">Επεξεργασία</th>
+      <th scope="col" class="text-center">Διαγραφή</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (language of languages(); track language.id) {
+      <tr>
+        <td>{{ language.id }}</td>
+        <td>{{ language.code }}</td>
+        <td>{{ language.name }}</td>
+        <td class="text-center">
+          <button
+            class="border-0 bg-transparent text-blue"
+            [class.text-gray]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+            [disabled]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+            title="Επεξεργασία"
+            (click)="onUpdate(language.id)"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+        <td class="text-center">
+          <button
+            class="border-0 bg-transparent text-blue"
+            [class.text-gray]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+            [disabled]="!isInsertFormCollapsed || !isUpdateFormCollapsed || isConfirmationAlertVisible"
+            title="Διαγραφή"
+            (click)="onDelete(language.id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td class="text-center" colspan="5">Δε βρέθηκαν γλώσσες</td>
+      </tr>
+    }
+  </tbody>
+</table>

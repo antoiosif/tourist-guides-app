@@ -1,0 +1,89 @@
+<h3 class="mb-5">Κατάλογος Επισκεπτών</h3>
+
+<!-- Filtering Form -->
+<div class="mb-3 p-3 bg-body-tertiary">
+  <form class="row g-3" [formGroup]="form">
+
+    <!-- filter: isActive -->
+    <div class="col-12 d-flex gap-2">
+      <input class="form-check-input" type="checkbox" formControlName="isActive" />
+      <label class="form-label">
+        Μόνο Ενεργοί Χρήστες
+      </label>
+    </div>
+
+    <!-- filter: visitor's uuid -->
+    <div class="col-lg-5">
+      <input class="form-control" type="text" placeholder="UUID" formControlName="uuid" />
+    </div>
+
+    <!-- filter: visitor's lastname -->
+    <div class="col-md-6 col-lg-4">
+      <input class="form-control" type="text" placeholder="Επώνυμο Επισκέπτη" formControlName="userLastname" />
+    </div>
+
+    <!-- filter: region -->
+    <div class="col-md-6 col-lg-3">
+      <select class="form-select" formControlName="regionId">
+        <option value="" selected>Όλες οι περιοχές</option>
+        @for (region of regions(); track region.id) {
+          <option value="{{ region.id }}">{{ region.name }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex gap-3">
+      <button 
+        class="btn btn-primary rounded-0"
+        (click)="onSubmit()"
+      >
+        Αναζήτηση
+      </button> 
+      <button 
+        class="btn btn-outline-primary rounded-0"
+        (click)="onReset()"
+      >
+        Εκκαθάριση
+      </button> 
+    </div>
+  </form>
+</div>
+
+<!-- Table -->
+<app-visitors-table [visitors]="visitors" class="align-items-center"></app-visitors-table>
+
+<!-- Pagination -->
+<div class="text-center">
+  <ul class="pagination justify-content-center">
+    <!-- link to the previous page -->
+    <li class="page-item">
+      <a class="page-link" aria-label="Previous" (click)="getPreviousPage()">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <!-- current page -->
+    <li>
+      <div class="mb-3 d-flex flex-nowrap px-2">
+        <label class="col-form-label me-2 ms-1">Σελίδα</label>
+        <input
+          #i
+          type="text"
+          class="form-control custom-pages-input w-40"
+          inputmode="numeric"
+          [value]="currentPage + 1"
+          (keyup.enter)="selectPage(i.value)"
+          (blur)="selectPage(i.value)"
+          (input)="formatInput($any($event).target)"
+        />
+        <span class="col-form-label text-nowrap px-2"> από {{ totalPages }}</span>
+      </div>
+    </li>
+    <!-- link to the next page -->
+    <li class="page-item">
+      <a class="page-link" aria-label="Next" (click)="getNextPage()">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</div>
