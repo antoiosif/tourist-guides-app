@@ -70,13 +70,13 @@ It features **JWT-based Authentication**, **role-based Authorization**, **REST A
 - `cd touristguidesapp` to navigate to the backend directory
 - `./gradlew bootRun` to run backend for the schema to be created
 - `Ctrl + C` to stop running
-- `cd src/main/resources/application-test` and edit the file according to the instructions (uncomment to create the indexes, populate the static data tables, create the "SUPER_ADMIN" and populate the rest tables with dummy data)
+- `cd src/main/resources` and edit the file `application-test.properties` according to the instructions (uncomment to create the indexes, populate the static data tables, create the "SUPER_ADMIN" and populate the rest tables with dummy data)
 - `./gradlew bootRun` to run again
 - API is available at `http://localhost:8080`
 
 **Frontend**
 
-- `cd ../../tourist-guides-app-frontend` to navigate to the frontend directory
+- `cd ../../../../tourist-guides-app-frontend` to navigate to the frontend directory
 - `ng serve` to run
 - In your browser navigate to `http://localhost:4200/`
 
