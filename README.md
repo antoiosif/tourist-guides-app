@@ -6,6 +6,8 @@ Tourist guides-members can register to the app and are automatically added to th
 
 It features **JWT-based Authentication**, **role-based Authorization**, **REST API**, **Swagger UI** for API documentation and **Responsive design** for a consistent and optimal user experience across various screen sizes and devices (desktops, tablets, mobile phones).
 
+![View of the frontend in different screen sizes](/assets/images/responsive-mockup.jpg)
+
 ## Roles and their capabilities
 **Guide**
 - Registers to the app and manages his account (update/delete) and the profile shown to the other users of the app. With his registration he is automatically added to the *List of Licensed Tourist Guides* and his profile is accessible from the other users of the app.
@@ -32,6 +34,8 @@ It features **JWT-based Authentication**, **role-based Authorization**, **REST A
   - the *List of Visitors* where he can search for one, more or all the visitors using simple or complex filtering criteria
   - the *List of Activities* where he can search for one, more or all the activities using simple or complex filtering criteria
   - the profile of each activity
+ 
+![Snapshots of the frontend](/assets/images/snapshots.jpg)
  
 ## Technologies Used
 **Backend**
